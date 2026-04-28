@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Consulta JSON</title>
+    <script src="js/jquery-3.5.0.js"></script>
+</head>
+<body>
+
+    <h1>Listado de Instituciones</h1>
+    
+    <button type="button" id="obtenerInformacion">Obtener información</button>
+    <button type="button" id="limpiarInformacion">Limpiar información</button>
+
+    <div id="mensajeFinal"></div>
+
+    <script>
+        $(document).ready(function() {
+        
+            var url = "data_instituciones.json"; 
+
+            $("#obtenerInformacion").click(function() {
+                $('#mensajeFinal').empty();
+                
+                $.ajax({
+                    dataType: 'json',
+                    url: url,
+                    success: function(data) {
+                        for(var i = 0; i < data.length; i++) {
+                            var item = "<div>" +
+                                "<p><b>Institución:</b> " + data[i]["Nombre-Educativa"] + "</p>" +
+                                "<p><b>Provincia:</b> " + data[i].Provincia + "</p>" +
+                                "<p><b>Estudiantes:</b> " + data[i].Numeroestudiantes + "</p>" +
+                                "<hr>" +
+                                "</div>";
+                            
+                            $('#mensajeFinal').append(item);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        
+                        console.error("Detalle del error:", error);
+                        alert("Error al cargar el JSON. Recuerda abrir el archivo con Live Server en VS Code.");
+                    }
+                });      
+            });
+            
+            $("#limpiarInformacion").click(function() {
+                $('#mensajeFinal').empty();
+            });
+        });
+    </script>
+
+</body>
+</html>
